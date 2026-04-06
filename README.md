@@ -13,7 +13,7 @@ It contains the modified Boltzmann solver, likelihood and input files, analysis 
 
 We parameterize the normalized dark energy (DE) density as a second-order polynomial in $(1 - a)$:
 
-$$f_{\rm DE}(a) \equiv \frac{\rho_{\rm DE}(a)}{\rho_{\rm DE,0}} = 1 + f_a\,(1 - a) + f_b\,(1 - a)^2$$
+$$f_{\rm DE}(a) \equiv \frac{\rho_{\rm DE}(a)}{\rho_{\rm DE,0}} = 1 + f_a (1 - a) + f_b (1 - a)^2$$
 
 with the cosmological constant recovered for $f_a = f_b = 0$. The corresponding equation of state follows from the continuity equation.
 
@@ -25,11 +25,11 @@ $$f_p \equiv f_{\rm DE}(z_p) \qquad w_p \equiv w(z_p)$$
 
 yielding
 
-$$f_{\rm DE}(z) = f_p - 3\,(1 + w_p)\,f_p \Big(\frac{z_p - z}{1 + z}\Big) + \frac{1 - f_p + 3\,(1 + w_p)\,f_p\,z_p}{z_p^2}\Big(\frac{z_p - z}{1 + z}\Big)^2$$
+$$f_{\rm DE}(z) = f_p - 3(1 + w_p) f_p \left(\frac{z_p - z}{1 + z}\right) + \frac{1 - f_p + 3(1 + w_p) f_p z_p}{z_p^2}\left(\frac{z_p - z}{1 + z}\right)^2$$
 
-with the cosmological constant recovered for $(w_p,\, f_p) = (-1,\, 1)$. The pivot is set to $z_p = 0.5$ throughout.
+with the cosmological constant recovered for $(w_p, f_p) = (-1, 1)$. The pivot is set to $z_p = 0.5$ throughout.
 
-This formulation directly parameterizes the quantity that enters the Friedmann equation, avoiding the degeneracies inherent to the CPL $(w_0,\, w_a)$ basis. Both parameters are individually well constrained: $w_p$ by BAO + CMB, and $f_p$ by the independent $\Omega_m$ measurement from SNe.
+This formulation directly parameterizes the quantity that enters the Friedmann equation, avoiding the degeneracies inherent to the CPL $(w_0, w_a)$ basis. Both parameters are individually well constrained: $w_p$ by BAO + CMB, and $f_p$ by the independent $\Omega_m$ measurement from SNe.
 
 ---
 
