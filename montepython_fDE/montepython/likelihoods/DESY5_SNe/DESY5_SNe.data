@@ -1,0 +1,15 @@
+# author: Tanvi Karwal 
+# Cannibalising the lkl at https://github.com/des-science/DES-SN5YR/blob/main/4_DISTANCES_COVMAT/DES-Dovekie-SN_Likelihood.py 
+# data: https://github.com/des-science/DES-SN5YR/blob/main/4_DISTANCES_COVMAT/DES-Dovekie_HD.csv
+# covmat: https://github.com/des-science/DES-SN5YR/blob/main/4_DISTANCES_COVMAT/STAT%2BSYS.npz
+
+DESY5_SNe.data_directory = os.path.join(data.path['data'], 'DESY5_SNe')
+DESY5_SNe.settings       = 'DESY5_SNe.dataset'
+DESY5_SNe.conflicting_experiments = ['JLA_simple', 'JLA','Pantheon','Pantheon_Plus_SH0ES', 'Pantheon_Plus']
+
+# Do you want to remove all non-DES SNe, effectively cutting out z < 0.1 ? 
+DESY5_SNe.DES_only = False 
+
+# NO NUISANCE PARAMETERS 
+# Following the DES Dovekie lkl release and marginalising over M 
+# Bother me (TK) if you want a version that doesn't marginalise M 

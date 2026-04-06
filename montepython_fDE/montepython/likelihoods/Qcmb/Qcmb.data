@@ -1,0 +1,6 @@
+# Defines Compressed CMB gaussian likelihood
+# -------------------------------------------
+
+# The variables are, in order, theta_s, omega_b, omega_cb
+Qcmb.centre = 0.01041, 2.223e-2, 0.14208
+Qcmb.covmat = [[1e-9*0.006621, 1e-9*0.12444, -1.1929*1e-9], [.12444*1e-9, 21.344*1e-9, -94.001*1e-9], [-1.1929*1e-9, -94.001*1e-9, 1488.4*1e-9]]

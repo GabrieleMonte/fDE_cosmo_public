@@ -1,0 +1,17 @@
+# mock DESI-like BAO data
+# model: lcdm
+# Cosmological parameters: #   output = , #   theta_s_100 = 1.041, #   omega_b = 0.02223, #   omega_cdm = 0.11985000000000001, #   ln10^{10}A_s = 3.036, #   n_s = 0.9649, #   tau_reio = 0.0544, #   m_ncdm = 0.02, #   N_ur = 0.00441, #   N_ncdm = 1, #   deg_ncdm = 3, #   T_ncdm = 0.71611, #   Omega_Lambda = 0.0, #   fluid_equation_of_state = CLP, #   w0_fld = -1, #   wa_fld = 0, 
+# [z] [value at z] [quantity]
+0.29500000 8.077898702691 DV_over_rs
+0.51000000 13.533579102148 DM_over_rs
+0.51000000 22.777887855582 DH_over_rs
+0.70600000 17.739893268782 DM_over_rs
+0.70600000 20.194160971582 DH_over_rs
+0.93400000 22.038429606927 DM_over_rs
+0.93400000 17.583827900143 DH_over_rs
+1.32100000 28.129133370248 DM_over_rs
+1.32100000 14.070589750742 DH_over_rs
+1.48400000 30.323830561690 DM_over_rs
+1.48400000 12.883648794945 DH_over_rs
+2.33000000 8.615365509291 DH_over_rs
+2.33000000 39.231539130741 DM_over_rs

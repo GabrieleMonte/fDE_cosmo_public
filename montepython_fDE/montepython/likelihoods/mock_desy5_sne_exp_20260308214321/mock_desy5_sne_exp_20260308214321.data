@@ -1,0 +1,5 @@
+# mock DESY5-like SNe data
+# model: exp
+mock_desy5_sne_exp_20260308214321.data_directory      = data.path['data']
+mock_desy5_sne_exp_20260308214321.data_file           = 'mock_desy5_sne_exp_20260308214321/mock_desy5_sne_exp_20260308214321_HD.csv'
+mock_desy5_sne_exp_20260308214321.cov_file            = 'mock_desy5_sne_exp_20260308214321/mock_desy5_sne_exp_20260308214321_cov.npz'

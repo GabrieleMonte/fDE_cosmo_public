@@ -1,0 +1,4 @@
+name = DESY5_SNe
+data_file = data/DES-Dovekie_HD.csv
+covmat_file =  data/STAT+SYS.npz
+

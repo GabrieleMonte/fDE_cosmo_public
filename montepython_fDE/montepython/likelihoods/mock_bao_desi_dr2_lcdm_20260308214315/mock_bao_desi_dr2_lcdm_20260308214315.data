@@ -1,0 +1,5 @@
+# mock DESI-like BAO data
+# model: lcdm
+mock_bao_desi_dr2_lcdm_20260308214315.data_directory      = data.path['data']
+mock_bao_desi_dr2_lcdm_20260308214315.data_file           = 'mock_bao_desi_dr2_lcdm_20260308214315/mock_bao_desi_dr2_lcdm_20260308214315_mean.txt'
+mock_bao_desi_dr2_lcdm_20260308214315.cov_file            = 'mock_bao_desi_dr2_lcdm_20260308214315/mock_bao_desi_dr2_lcdm_20260308214315_cov.txt'

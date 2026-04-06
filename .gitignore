@@ -1,0 +1,36 @@
+# Build artifacts
+*.o
+*.so
+*.a
+*.pyc
+*.egg-info/
+build/
+dist/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# MontePython runtime
+montepython_fDE/default.conf
+montepython_fDE/chains/
+montepython_fDE/covmat/
+montepython_fDE/bestfit/
+
+# Chain outputs
+desi_chains/
+
+# Internal tooling
+CLAUDE.md
+push.sh

@@ -1,0 +1,17 @@
+# DES Y5 Supernovae
+### Likelihood for MontePython 
+
+14 November 2025: 
+
+Tanvi Karwal hacking together a version of the DES Y5 Supernova likelihood
+bsed on the DESY5 supernova Dovekie likelihood with files available at 
+https://github.com/des-science/DES-SN5YR/tree/main/4_DISTANCES_COVMAT
+
+## Instructions 
+
+1) Copy the DESY5 data to the data/ folder in MP from https://github.com/des-science/DES-SN5YR/tree/main/4_DISTANCES_COVMAT
+2) Copy the covmat into the same folder https://github.com/des-science/DES-SN5YR/blob/main/4_DISTANCES_COVMAT/STAT%2BSYS.npz
+3) No nuisance parameters. Call by adding to your MP experiment block:
+```
+data.experiments=['DESY5_SNe']
+```
