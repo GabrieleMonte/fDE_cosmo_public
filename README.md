@@ -3,7 +3,7 @@
 This repository accompanies the paper
 
 > **Parameterizing Dark Energy at the density level: A two-parameter alternative to CPL**
-> Gabriele Montefalcone and Richard Stiskalek, [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
+> Gabriele Montefalcone and Richard Stiskalek, [arXiv:2603.25735](https://arxiv.org/abs/2603.25735)
 
 It contains the modified Boltzmann solver, likelihood and input files, analysis scripts, and posterior data needed to reproduce all results and figures in the paper.
 
@@ -25,7 +25,7 @@ $$f_p \equiv f_{\rm DE}(z_p) \qquad w_p \equiv w(z_p)$$
 
 yielding
 
-$$f_{\rm DE}(z) = f_p - 3\,(1 + w_p)\,f_p \left(\frac{z_p - z}{1 + z}\right) + \frac{1 - f_p + 3\,(1 + w_p)\,f_p\,z_p}{z_p^2}\left(\frac{z_p - z}{1 + z}\right)^2$$
+$$f_{\rm DE}(z) = f_p - 3\,(1 + w_p)\,f_p \Big(\frac{z_p - z}{1 + z}\Big) + \frac{1 - f_p + 3\,(1 + w_p)\,f_p\,z_p}{z_p^2}\Big(\frac{z_p - z}{1 + z}\Big)^2$$
 
 with the cosmological constant recovered for $(w_p,\, f_p) = (-1,\, 1)$. The pivot is set to $z_p = 0.5$ throughout.
 
@@ -98,18 +98,23 @@ To rerun the MCMC analyses from scratch, install [MontePython](https://github.co
 If you use this code, please cite:
 
 ```bibtex
-@article{Montefalcone:2026xxx,
-    author = {Montefalcone, Gabriele and Stiskalek, Richard},
+@article{Montefalcone:2026iga,
+    author = "Montefalcone, Gabriele and Stiskalek, Richard",
     title = "{Parameterizing Dark Energy at the density level: A two-parameter alternative to CPL}",
-    eprint = "XXXX.XXXXX",
+    eprint = "2603.25735",
     archivePrefix = "arXiv",
     primaryClass = "astro-ph.CO",
+    reportNumber = "UTWI-10-2026",
+    month = "3",
     year = "2026"
 }
 ```
 
 ## Acknowledgments
 
-We acknowledge the use of [CLASS](https://github.com/lesgourg/class_public) ([Blas, Lesgourgues & Tram, 2011](https://arxiv.org/abs/1104.2933)), [MontePython](https://github.com/brinckmann/montepython_public) ([Audren et al., 2013](https://arxiv.org/abs/1210.7183); [Brinckmann & Lesgourgues, 2019](https://arxiv.org/abs/1804.07261)), and [GetDist](https://github.com/cmbant/getdist) ([Lewis, 2019](https://arxiv.org/abs/1910.13970)). The MontePython implementations of the DESI DR2 BAO likelihood are from [Herold & Ferreira (2024)](https://arxiv.org/abs/2407.04777), and those of the Pantheon+ and DESY5 SNe likelihoods are from [Herold & Karwal (2024)](https://arxiv.org/abs/2412.00965).
+We acknowledge the use of [CLASS](https://github.com/lesgourg/class_public), [MontePython](https://github.com/brinckmann/montepython_public), and [GetDist](https://github.com/cmbant/getdist). 
+The MontePython implementations of the DESI DR2 BAO, Pantheon+ and DESY5 SNe likelihoods were originally written by Laura Herold and Tanvi Karwal and are available respectively at [MontePython_desilike](https://github.com/LauraHerold/MontePython_desilike/tree/main) and [cosmo_likelihoods](https://github.com/tkarwal/cosmo_likelihoods).
 
-The initial structuring of this public repository, including directory organization, code comments, and an initial draft of this README, was assisted by Claude (Anthropic). All content was reviewed and verified by the authors.
+## AI Disclosure
+
+The preparation of this public repository was aided by Claude (Anthropic). Specifically, AI assistance was used to organize the directory structure for public release, add descriptive comments and markdown sections to the notebooks, and produce an initial draft of this README. No AI tools were used in the scientific analysis or in writing the paper. All AI-generated content was reviewed and verified by the authors.
