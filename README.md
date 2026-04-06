@@ -46,9 +46,9 @@ The `fDE_notebooks/` subdirectory contains the quintessence benchmark validation
 Likelihood modules and input parameter files for [MontePython](https://github.com/brinckmann/montepython_public). This directory contains only the likelihoods and data relevant to this work, not the full MontePython sampler code. To run MCMC analyses, these likelihoods and data directories should be placed within a working MontePython installation.
 
 The likelihoods provided are:
-- **DESI DR2 BAO** (`bao_desi_DR2`): MontePython implementation from [Herold & Ferreira (2024)](https://arxiv.org/abs/2407.04777)
+- **DESI DR2 BAO** (`bao_desi_DR2`): MontePython implementation from [Herold & Kamionkowski (2024)](https://arxiv.org/abs/2412.03546)
 - **Compressed CMB** (`Qcmb`): Gaussian prior on $\theta_s$, $\omega_b$, $\omega_{cb}$ as defined in [DESI Collaboration (2025)](https://arxiv.org/abs/2503.14738)
-- **Pantheon+** (`Pantheon_Plus`) and **DESY5 SNe** (`DESY5_SNe`): MontePython implementations from [Herold & Karwal (2024)](https://arxiv.org/abs/2412.00965)
+- **Pantheon+** (`Pantheon_Plus`) and **DESY5 SNe** (`DESY5_SNe`): MontePython implementations from [Herold & Karwal (2025)](https://arxiv.org/abs/2506.12004)
 - **Mock likelihoods**: Example mock DESI BAO and DESY5 data for the validation analyses of Appendix B
 
 The directory also includes:
@@ -117,4 +117,4 @@ The MontePython implementations of the DESI DR2 BAO, Pantheon+ and DESY5 SNe lik
 
 ## AI Disclosure
 
-The preparation of this public repository was aided by Claude (Anthropic). Specifically, AI assistance was used to organize the directory structure for public release, add descriptive comments and markdown sections to the notebooks, and produce an initial draft of this README. All AI-generated content was reviewed and verified by the authors.
+The preparation of this public repository was aided by **Claude (Anthropic)**. Specifically, AI assistance was used to organize the directory structure for public release, add descriptive comments and markdown sections to the notebooks, and produce an initial draft of this README. All AI-generated content was reviewed and verified by the authors.
