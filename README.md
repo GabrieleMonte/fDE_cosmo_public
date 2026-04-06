@@ -117,4 +117,4 @@ The MontePython implementations of the DESI DR2 BAO, Pantheon+ and DESY5 SNe lik
 
 ## AI Disclosure
 
-The preparation of this public repository was aided by Claude (Anthropic). Specifically, AI assistance was used to organize the directory structure for public release, add descriptive comments and markdown sections to the notebooks, and produce an initial draft of this README. No AI tools were used in the scientific analysis or in writing the paper. All AI-generated content was reviewed and verified by the authors.
+The preparation of this public repository was aided by Claude (Anthropic). Specifically, AI assistance was used to organize the directory structure for public release, add descriptive comments and markdown sections to the notebooks, and produce an initial draft of this README. All AI-generated content was reviewed and verified by the authors.
