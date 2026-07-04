@@ -17,7 +17,7 @@ $$f_{\rm DE}(a) \equiv \frac{\rho_{\rm DE}(a)}{\rho_{\rm DE,0}} = 1 + f_a (1 - a
 
 with the cosmological constant recovered for $f_a = f_b = 0$. The corresponding equation of state follows from the continuity equation:
 
-$$w(a) = -1 + \frac{a\bigl[f_a + 2f_b(1-a)\bigr]}{3\bigl[1 + f_a(1-a) + f_b(1-a)^2\bigr]}\,.$$
+$$w(a) = -1 + \frac{a\bigl[f_a + 2f_b(1-a)\bigr]}{3\bigl[1 + f_a(1-a) + f_b(1-a)^2\bigr]}.$$
 
 ### Pivot parameterization
 
@@ -42,7 +42,7 @@ Modified [CLASS](https://github.com/lesgourg/class_public) Boltzmann solver (bas
 - `'fpDE'`: single-parameter $f_p$ formulation (Eq. 11 of the paper)
 - `'fpDE_2'`: two-parameter $(w_p, f_p)$ formulation (Eq. 8 of the paper)
 
-$w(a)$ is computed directly according to the equation above for all `fpDE` variants. A small regularization (`w(a) = 0` whenever $|f_{\rm DE}(a)| < 10^{-8}$) prevents a numerical singularity at values of $a$ where $f_{\rm DE}(a)$ crosses zero.
+$w(a)$ is computed directly according to the continuity equation for all `fpDE` variants. A small regularization (`w(a) = 0` whenever $|f_{\rm DE}(a)| < 10^{-8}$) prevents a numerical singularity at values of $a$ where $f_{\rm DE}(a)$ crosses zero.
 
 The `fDE_notebooks/` subdirectory contains the quintessence benchmark validation notebooks that produce Figures 1 and A1.
 
