@@ -16,12 +16,10 @@ parameterization used is selected at runtime through the `fluid_equation_of_stat
 
 | `fluid_equation_of_state` | Parameters | Description |
 | --- | --- | --- |
-| `CLP` | `w0_fld`, `wa_fld` (or `w0wa_fld`), `cs2_fld` | Standard CPL $w_0w_a$CDM |
-| `faDE` | `fa_fld`, `cs2_fld` | Single-parameter $f_a$ formulation |
-| `fpDE` | `fp_fld`, `ap_fld`, `cs2_fld` | Single-parameter pivot formulation, $f_p$ (paper Eq. 11) |
-| `faDE_2` | `fa_fld`, `dfa_fld`, `cs2_fld` | Two-parameter $(f_a, f_b)$ formulation |
-| `fpDE_2` | `fp_fld`, `wp_fld`, `ap_fld`, `cs2_fld` | Two-parameter pivot formulation, $(w_p, f_p)$ (paper Eq. 8) |
-| `EDE` | (pre-existing, unrelated to this paper) | Early dark energy |
+| `faDE` | `fa_fld`| Single-parameter $f_a$ formulation |
+| `fpDE` | `fp_fld`, `ap_fld`| Single-parameter pivot formulation, $f_p$ (paper Eq. 11) |
+| `faDE_2` | `fa_fld`, `dfa_fld` | Two-parameter $(f_a, f_b)$ formulation |
+| `fpDE_2` | `fp_fld`, `wp_fld`, `ap_fld` | Two-parameter pivot formulation, $(w_p, f_p)$ (paper Eq. 8) |
 
 For all `f(a/p)DE` variants, $w(a)$ is computed directly from $f_{\rm DE}(a)$ via
 $w(a) = -1 + a f_{\rm DE}'(a) / \bigl(3 f_{\rm DE}(a)\bigr)$. A small regularization sets
