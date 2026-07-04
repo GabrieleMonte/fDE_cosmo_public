@@ -673,25 +673,56 @@ int background_w_fld(
   double dOmega_ede_over_da = 0.;
   double d2Omega_ede_over_da2 = 0.;
   double a_eq, Omega_r, Omega_m;
-
+  double fa = 0., fb = 0., fDE, dfDE;
+  double f_DE_reg = 1.e-8;   /* |f_DE| below this triggers pole regularization */
   /** - first, define the function w(a) */
   switch (pba->fluid_equation_of_state) {
   case CLP:
     *w_fld = pba->w0_fld + pba->wa_fld * (1. - a);
     break;
   case faDE:
-    /* *w_fld = -1+ a* pba->fa_fld /(3*(1 +(1. - a)*pba->fa_fld));*/
-    *w_fld = -1;
+	fa = pba->fa_fld;
+	fb = 0.;
+    fDE = 1. + fa*(1.-a);
+    if (fabs(fDE) < f_DE_reg){
+		*w_fld = 0.;
+	} /* pole: w(a_pole)=0 */
+    else {
+		*w_fld = -1. + a*fa/(3.*fDE);
+	}
     break;
   case fpDE:
-    /* *w_fld = -1+ a* (pba->fp_fld-1) /(3*((a-pba->ap_fld) +(1. - a)*pba->fp_fld));*/
-    *w_fld = -1;
+    fa = (pba->fp_fld - 1.)/(1. - pba->ap_fld);
+    fb = 0.;
+    fDE = 1. + fa*(1.-a);
+    if (fabs(fDE) < f_DE_reg){
+		*w_fld = 0.;
+	} /* pole: w(a_pole)=0 */
+    else {
+		*w_fld = -1. + a*fa/(3.*fDE);
+	}
     break;
   case faDE2:
-    *w_fld = -1;
+    fa = pba->fa_fld;
+    fb = pba->dfa_fld;
+    fDE = 1. + fa*(1.-a) + fb*(1.-a)*(1.-a);
+    if (fabs(fDE) < f_DE_reg){
+		*w_fld = 0.;
+	} /* pole: w(a_pole)=0 */
+    else {
+		*w_fld = -1. + a*(fa + 2.*fb*(1.-a))/(3.*fDE);
+	}
     break;
   case fpDE2:
-    *w_fld = -1;
+    fa = 2.*(pba->fp_fld - 1.)/(1. - pba->ap_fld) - 3.*pba->fp_fld*(1. + pba->wp_fld)/pba->ap_fld;
+    fb = ( 3.*pba->fp_fld*(1. + pba->wp_fld)/pba->ap_fld - (pba->fp_fld - 1.)/(1. - pba->ap_fld) )/(1. - pba->ap_fld);
+    fDE = 1. + fa*(1.-a) + fb*(1.-a)*(1.-a);
+    if (fabs(fDE) < f_DE_reg){
+		*w_fld = 0.;
+	} /* pole: w(a_pole)=0 */
+    else {
+		*w_fld = -1. + a*(fa + 2.*fb*(1.-a))/(3.*fDE);
+	}
     break;
   case EDE:
     // Omega_ede(a) taken from eq. (10) in 1706.00730
@@ -729,19 +760,17 @@ int background_w_fld(
     *dw_over_da_fld = - pba->wa_fld;
     break;
   case faDE:
-    /* *dw_over_da_fld = -1+ pba->fa_fld*(1.+ pba->fa_fld)/(3*pow((1.+(1.- a)*pba->fa_fld),2));*/
-    *dw_over_da_fld = 0;
-    break;
   case fpDE:
-    /* *dw_over_da_fld = -1+ (pba->fp_fld-1)*(-pba->ap_fld + pba->fp_fld)/(3*pow(((a-pba->ap_fld)+pba->fp_fld*(1-a)),2)); */
-    *dw_over_da_fld = 0;
-    break;
   case faDE2:
-    *dw_over_da_fld = 0;
-    break;
   case fpDE2:
-    *dw_over_da_fld = 0;
-    break;
+    fDE  = 1. + fa*(1.-a) + fb*(1.-a)*(1.-a);
+    dfDE = -fa - 2.*fb*(1.-a);/* d f_DE / da */
+    if (fabs(fDE) < f_DE_reg){
+		*dw_over_da_fld = 0.;
+	}
+    else {
+		*dw_over_da_fld = -( (dfDE + 2.*fb*a)*fDE - a*dfDE*dfDE )/(3.*fDE*fDE);
+	}
   case EDE:
     d2Omega_ede_over_da2 = 0.;
     *dw_over_da_fld = - d2Omega_ede_over_da2*a/3./(1.-Omega_ede)/Omega_ede
