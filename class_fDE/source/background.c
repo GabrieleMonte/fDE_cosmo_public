@@ -771,6 +771,7 @@ int background_w_fld(
     else {
 		*dw_over_da_fld = -( (dfDE + 2.*fb*a)*fDE - a*dfDE*dfDE )/(3.*fDE*fDE);
 	}
+	break;
   case EDE:
     d2Omega_ede_over_da2 = 0.;
     *dw_over_da_fld = - d2Omega_ede_over_da2*a/3./(1.-Omega_ede)/Omega_ede
