@@ -16,7 +16,10 @@ make
 
 echo ""
 echo "=== Installing classy_fDE Python wrapper ==="
-pip install .
+# setup.py imports Cython/numpy directly and has no pyproject.toml declaring
+# them as build requirements, so pip's isolated build sandbox won't have them.
+# Use the current environment's packages instead.
+pip install --no-build-isolation .
 
 echo ""
 echo "=== Done ==="
