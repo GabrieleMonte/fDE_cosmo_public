@@ -3299,23 +3299,64 @@ int input_read_parameters_species(struct file_content * pfc,
     int flag10,flag11;
     if (pba->fluid_equation_of_state == CLP) {
       /** 8.a.2.2) Equation of state of the fluid in 'CLP' case */
-      /* Read */
-      class_read_double("w0_fld",pba->w0_fld);
-      class_call(parser_read_double(pfc,"wa_fld",&param10,&flag10,errmsg),
-             errmsg,
-             errmsg);
-      class_call(parser_read_double(pfc,"w0wa_fld",&param11,&flag11,errmsg),
-             errmsg,
-             errmsg);
-      class_test(((flag10 == _TRUE_) && (flag11 == _TRUE_)) || ((flag10 == _FALSE_) && (flag11 == _FALSE_)),
-             errmsg,
-             "You must provide either 'wa_fld' or 'w0wa_fld' but no both");
-      if (flag10 == _TRUE_){
-		  pba->wa_fld = param10;
-	  }
-      else if (flag11 == _TRUE_){
-		  pba->wa_fld = param11-pba->w0_fld;
-	  }
+      int flag_wp, flag_fp, flag_w0;
+      double param_wp, param_fp, param_w0;
+      double zp_fac, L_zp, detA, chi_p;
+      /* Read: optional pivot parametrisation (wp_fld, fp_fld) */
+      class_call(parser_read_double(pfc,"wp_fld",&param_wp,&flag_wp,errmsg),
+                 errmsg,
+                 errmsg);
+      class_call(parser_read_double(pfc,"fp_fld",&param_fp,&flag_fp,errmsg),
+                 errmsg,
+                 errmsg);
+
+      class_test(((flag_wp == _TRUE_) && (flag_fp == _FALSE_)) || ((flag_wp == _FALSE_) && (flag_fp == _TRUE_)),
+                 errmsg,
+                 "In the CLP case, 'wp_fld' and 'fp_fld' must be provided together, or neither of them");
+
+      if (flag_wp == _TRUE_) {
+
+        /* Pivot scale factor */
+        class_read_double("ap_fld",pba->ap_fld);
+        /* w0_fld and wa_fld are derived here, so they must not also be passed */
+        class_call(parser_read_double(pfc,"w0_fld",&param_w0,&flag_w0,errmsg),
+                   errmsg,
+                   errmsg);
+        class_call(parser_read_double(pfc,"wa_fld",&param10,&flag10,errmsg),
+                   errmsg,
+                   errmsg);
+        class_call(parser_read_double(pfc,"w0wa_fld",&param11,&flag11,errmsg),
+                   errmsg,
+                   errmsg);
+        class_test((flag_w0 == _TRUE_) || (flag10 == _TRUE_) || (flag11 == _TRUE_),
+                   errmsg,
+                   "You passed 'wp_fld'/'fp_fld' together with 'w0_fld', 'wa_fld' or 'w0wa_fld': use only one parametrisation");
+        zp_fac = 1. - pba->ap_fld;
+        L_zp   = -log(pba->ap_fld);
+        detA   = 3.*L_zp*zp_fac - 3.*(L_zp - zp_fac);
+        chi_p  = log(param_fp) + 3.*log(pba->ap_fld);
+        pba->w0_fld = (zp_fac*chi_p - 3.*(L_zp - zp_fac)*param_wp)/detA;
+        pba->wa_fld = (3.*L_zp*param_wp - chi_p)/detA;
+      }
+      else {
+        /* Read */
+        class_read_double("w0_fld",pba->w0_fld);
+        class_call(parser_read_double(pfc,"wa_fld",&param10,&flag10,errmsg),
+                   errmsg,
+                   errmsg);
+        class_call(parser_read_double(pfc,"w0wa_fld",&param11,&flag11,errmsg),
+                   errmsg,
+                   errmsg);
+        class_test(((flag10 == _TRUE_) && (flag11 == _TRUE_)) || ((flag10 == _FALSE_) && (flag11 == _FALSE_)),
+                   errmsg,
+                   "You must provide either 'wa_fld' or 'w0wa_fld' but no both");
+        if (flag10 == _TRUE_){
+          pba->wa_fld = param10;
+        }
+        else if (flag11 == _TRUE_){
+          pba->wa_fld = param11-pba->w0_fld;
+        }
+      }
       class_read_double("cs2_fld",pba->cs2_fld);
     }
     if (pba->fluid_equation_of_state == faDE) {
