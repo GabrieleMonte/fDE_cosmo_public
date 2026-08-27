@@ -6,7 +6,7 @@
 #define __TRIGONOMETRIC_INTEGRALS__
 
 #include "common.h"
-
+#define _EIN_ONE_ 0.79659959929705313   /* Ein(1) = gamma + E1(1) */
 /**
  * Boilerplate for C++
  */
@@ -25,7 +25,10 @@ extern "C" {
 				 double *Si,
          ErrorMsg error_message
 				 );
-
+  int exponential_integral_a_to_1(double a,
+								  double *J,
+						ErrorMsg error_message
+								  );
 #ifdef __cplusplus
 }
 #endif

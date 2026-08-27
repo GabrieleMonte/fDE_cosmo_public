@@ -12,7 +12,7 @@
 
 /** list of possible parametrisations of the DE equation of state */
 
-enum equation_of_state {CLP,EDE, faDE, fpDE, faDE2, fpDE2};
+enum equation_of_state {CLP,BA, EXP, LOG, JBP, EDE, faDE, fpDE, faDE2, fpDE2};
 
 /** list of possible parametrizations of the varying fundamental constants */
 

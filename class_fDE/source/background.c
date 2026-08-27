@@ -113,6 +113,7 @@
  */
 
 #include "background.h"
+#include "trigonometric_integrals.h"
 
 /**
  * Background quantities at given redshift z.
@@ -128,6 +129,9 @@
  * @param pvecback      Output: vector (assumed to be already allocated)
  * @return the error status
  */
+
+
+
 
 int background_at_z(
                     struct background *pba,
@@ -680,6 +684,18 @@ int background_w_fld(
   case CLP:
     *w_fld = pba->w0_fld + pba->wa_fld * (1. - a);
     break;
+  case BA:
+	*w_fld= pba->w0_fld + pba->wa_fld*(1.-a)/(2.*a*a - 2.*a + 1.);
+    break;
+  case EXP:
+	*w_fld= pba->w0_fld + pba->wa_fld*(exp(1.-a) - 1.);
+    break;
+  case LOG:
+	*w_fld= pba->w0_fld - pba->wa_fld*log(a);
+    break;
+  case JBP:
+	*w_fld= pba->w0_fld + pba->wa_fld*a*(1.-a);
+    break;
   case faDE:
 	fa = pba->fa_fld;
 	fb = 0.;
@@ -759,6 +775,18 @@ int background_w_fld(
   case CLP:
     *dw_over_da_fld = - pba->wa_fld;
     break;
+  case BA:
+    *dw_over_da_fld = pba->wa_fld*(2.*a*a - 4.*a + 1.)/pow((2.*a*a - 2.*a + 1),2);
+    break;
+  case EXP:
+    *dw_over_da_fld = - pba->wa_fld*exp(1.-a);
+    break;
+  case LOG:
+    *dw_over_da_fld = - pba->wa_fld/a;
+    break;
+  case JBP:
+    *dw_over_da_fld = pba->wa_fld*(1. - 2.*a);
+    break;
   case faDE:
   case fpDE:
   case faDE2:
@@ -794,6 +822,28 @@ int background_w_fld(
   switch (pba->fluid_equation_of_state) {
   case CLP:
     *integral_fld = 3.*((1.+pba->w0_fld+pba->wa_fld)*log(1./a) + pba->wa_fld*(a-1.));
+    break;
+  case BA:
+    *integral_fld = 3.*((1.+pba->w0_fld)*log(1./a) + pba->wa_fld*(0.5*log( 2.*a*a - 2.*a + 1.) - log(a)));
+    break;
+  case EXP:
+	double J_a, ein_a, e1ma;
+	if (a > 0.) {
+        class_call(exponential_integral_a_to_1(a,&J_a,pba->error_message),
+                   pba->error_message,
+                   pba->error_message);
+        ein_a = J_a + log(a);            /* = Ein(a) - Ein(1) */
+    }
+    else {
+        ein_a = -_EIN_ONE_;              /* Ein(0) = 0 */
+    }
+    *integral_fld = 3.*(1.+pba->w0_fld-pba->wa_fld)*log(1./a) + 3.*pba->wa_fld*exp(1.)*J_a;;
+    break;
+  case LOG:
+    *integral_fld = 3.*((1.+pba->w0_fld)*log(1./a) + pba->wa_fld*0.5*log(a)*log(a));
+    break;
+  case JBP:
+    *integral_fld = 3.*((1.+pba->w0_fld)*log(1./a) + pba->wa_fld*0.5*(1.-a)*(1.-a));
     break;
   case faDE:
     *integral_fld = 1. + pba->fa_fld*(1-a);

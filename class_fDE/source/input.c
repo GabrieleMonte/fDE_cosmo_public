@@ -3276,6 +3276,18 @@ int input_read_parameters_species(struct file_content * pfc,
       if ((strstr(string1,"CLP") != NULL) || (strstr(string1,"clp") != NULL)) {
         pba->fluid_equation_of_state = CLP;
       }
+      else if ((strstr(string1,"BA") != NULL) || (strstr(string1,"ba") != NULL)) {
+        pba->fluid_equation_of_state = BA;
+      }
+      else if ((strstr(string1,"EXP") != NULL) || (strstr(string1,"exp") != NULL)) {
+        pba->fluid_equation_of_state = EXP;
+      }
+      else if ((strstr(string1,"LOG") != NULL) || (strstr(string1,"log") != NULL)) {
+        pba->fluid_equation_of_state = LOG;
+      }
+      else if ((strstr(string1,"JBP") != NULL) || (strstr(string1,"jbp") != NULL)) {
+        pba->fluid_equation_of_state = JBP;
+      }
       else if ((strcmp(string1,"faDE") == 0) || (strcmp(string1,"fade") == 0)) {
 	      pba->fluid_equation_of_state = faDE;
       }
@@ -3297,11 +3309,18 @@ int input_read_parameters_species(struct file_content * pfc,
     }
     double param10, param11;
     int flag10,flag11;
-    if (pba->fluid_equation_of_state == CLP) {
-      /** 8.a.2.2) Equation of state of the fluid in 'CLP' case */
+    if ((pba->fluid_equation_of_state == CLP) ||
+        (pba->fluid_equation_of_state == BA)  ||
+        (pba->fluid_equation_of_state == EXP) ||
+        (pba->fluid_equation_of_state == LOG) ||
+        (pba->fluid_equation_of_state == JBP)) {
+
+      /** 8.a.2.2) Equation of state w(a) = w0 + wa*g(a), with g(1) = 0 */
+
       int flag_wp, flag_fp, flag_w0;
       double param_wp, param_fp, param_w0;
-      double zp_fac, L_zp, detA, chi_p;
+      double ap, L_zp, S_p, g_p, G_p, detA, chi_p;
+
       /* Read: optional pivot parametrisation (wp_fld, fp_fld) */
       class_call(parser_read_double(pfc,"wp_fld",&param_wp,&flag_wp,errmsg),
                  errmsg,
@@ -3312,12 +3331,13 @@ int input_read_parameters_species(struct file_content * pfc,
 
       class_test(((flag_wp == _TRUE_) && (flag_fp == _FALSE_)) || ((flag_wp == _FALSE_) && (flag_fp == _TRUE_)),
                  errmsg,
-                 "In the CLP case, 'wp_fld' and 'fp_fld' must be provided together, or neither of them");
+                 "'wp_fld' and 'fp_fld' must be provided together, or neither of them");
 
       if (flag_wp == _TRUE_) {
 
         /* Pivot scale factor */
         class_read_double("ap_fld",pba->ap_fld);
+
         /* w0_fld and wa_fld are derived here, so they must not also be passed */
         class_call(parser_read_double(pfc,"w0_fld",&param_w0,&flag_w0,errmsg),
                    errmsg,
@@ -3331,14 +3351,51 @@ int input_read_parameters_species(struct file_content * pfc,
         class_test((flag_w0 == _TRUE_) || (flag10 == _TRUE_) || (flag11 == _TRUE_),
                    errmsg,
                    "You passed 'wp_fld'/'fp_fld' together with 'w0_fld', 'wa_fld' or 'w0wa_fld': use only one parametrisation");
-        zp_fac = 1. - pba->ap_fld;
-        L_zp   = -log(pba->ap_fld);
-        detA   = 3.*L_zp*zp_fac - 3.*(L_zp - zp_fac);
-        chi_p  = log(param_fp) + 3.*log(pba->ap_fld);
-        pba->w0_fld = (zp_fac*chi_p - 3.*(L_zp - zp_fac)*param_wp)/detA;
+
+        /* Shape functions at the pivot:
+             g_p = g(ap),  G_p = \int_ap^1 g(a)/a da.
+           MUST stay consistent with background_w_fld() in background.c. */
+
+        ap   = pba->ap_fld;
+        L_zp = -log(ap);
+
+        if (pba->fluid_equation_of_state == CLP) {
+          g_p = 1.-ap;
+          G_p = L_zp - (1.-ap);
+        }
+        else if (pba->fluid_equation_of_state == BA) {
+          S_p = 2.*ap*ap - 2.*ap + 1.;              /* ap^2 + (1-ap)^2 */
+          g_p = (1.-ap)/S_p;
+          G_p = 0.5*log(S_p) + L_zp;
+        }
+        else if (pba->fluid_equation_of_state == EXP) {
+		  double J_p;
+		  class_call(exponential_integral_a_to_1(ap,&J_p,errmsg),
+                     errmsg,
+                     errmsg);
+          g_p = exp(1.-ap) - 1.;
+          G_p = exp(1.)*J_p - L_zp;
+        }
+        else if (pba->fluid_equation_of_state == LOG) {
+          g_p = L_zp;
+          G_p = 0.5*L_zp*L_zp;
+        }
+        else {                                      /* JBP */
+          g_p = ap*(1.-ap);
+          G_p = 0.5*(1.-ap)*(1.-ap);
+        }
+
+        /* Solve   wp    =    w0 +  g_p wa
+                   chi_p = 3L w0 + 3G_p wa,   chi_p = log(fp) + 3 log(ap)  */
+
+        detA  = 3.*(L_zp*g_p - G_p);
+        chi_p = log(param_fp) + 3.*log(ap);
+
+        pba->w0_fld = (g_p*chi_p - 3.*G_p*param_wp)/detA;
         pba->wa_fld = (3.*L_zp*param_wp - chi_p)/detA;
       }
       else {
+
         /* Read */
         class_read_double("w0_fld",pba->w0_fld);
         class_call(parser_read_double(pfc,"wa_fld",&param10,&flag10,errmsg),
@@ -3357,6 +3414,7 @@ int input_read_parameters_species(struct file_content * pfc,
           pba->wa_fld = param11-pba->w0_fld;
         }
       }
+
       class_read_double("cs2_fld",pba->cs2_fld);
     }
     if (pba->fluid_equation_of_state == faDE) {

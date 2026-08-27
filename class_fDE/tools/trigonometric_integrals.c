@@ -5,6 +5,7 @@
 
 #include "trigonometric_integrals.h"
 
+
 /** this is the Cosine Integral function Ci(x) */
 int cosine_integral(
                     double x,
@@ -96,5 +97,49 @@ int sine_integral(
 
     *Si=pi8/2.-f*cos(x)-g*sin(x);
   }
+  return _SUCCESS_;
+}
+
+/**
+ * Computes J(a) = \int_a^1 e^{-t}/t dt for 0 < a <= 1.
+ *
+ * The integrand's 1/t pole makes J ~ -ln(a) at small a, so that piece is
+ * extracted analytically:
+ *
+ *   J(a) = -ln(a) + Ein(a) - Ein(1),
+ *
+ * where Ein(x) = \int_0^x (1-e^{-t})/t dt is entire and given by the series
+ * sum_{n>=1} (-1)^{n+1} x^n / (n n!), which converges to machine precision
+ * in at most ~20 terms on (0,1].
+ *
+ * @param a  Input: lower limit, 0 < a <= 1
+ * @param J  Output: value of the integral
+ * @return the error status
+ */
+
+int exponential_integral_a_to_1(
+                                double a,
+                                double *J,
+                                ErrorMsg error_message
+                                ){
+  double term = 1., ein = 0., contrib;
+  int n;
+
+  class_test((a < 0.) || (a > 1.),
+             error_message,
+             "exponential_integral_a_to_1() called with a=%e, outside its domain (0,1]",a);
+  if (a == 0.) {
+    *J = _HUGE_;
+    return _SUCCESS_;
+  }
+  for (n=1; n<=60; n++) {
+    term *= -a/(double)n;              /* (-a)^n / n!               */
+    contrib = -term/(double)n;         /* (-1)^{n+1} a^n / (n n!)   */
+    ein += contrib;
+    if (fabs(contrib) < 1.e-17*(fabs(ein)+1.e-300)) break;
+  }
+
+  *J = -log(a) + ein - _EIN_ONE_;
+
   return _SUCCESS_;
 }
